@@ -2,7 +2,11 @@ tensorflow==2.16.1
 keras==2.16.0
 opencv-python==4.9.0.80
 numpy==1.24.3
-streamlit==1.28.1
-Pillow==10.0.1
-matplotlib==3.7.2
 pandas==2.0.3
+matplotlib==3.7.2
+Pillow==10.0.1
+streamlit==1.28.1
+streamlit-lottie==0.0.5
+requests==2.31.0
+sqlite3-binary==0.0.1
+pathlib==1.0.1
