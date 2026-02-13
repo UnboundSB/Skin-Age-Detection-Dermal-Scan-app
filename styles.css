@@ -1,119 +1,536 @@
+/* ============================================
+   STREAMLIT MODERN UI ENHANCEMENT STYLESHEET
+   ============================================ */
 
-        /* Hide Streamlit's default elements */
-        #MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-        header {visibility: hidden;}
+/* --- RESET & BASE STYLES --- */
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
 
-        /* --- Animated Gradient Background --- */
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+* {
+    box-sizing: border-box;
+}
 
-        .stApp {
-            background: linear-gradient(-45deg, #10002b, #240046, #3c096c);
-            background-size: 400% 400%;
-            animation: gradient 20s ease infinite;
-        }
+/* --- CSS VARIABLES FOR EASY CUSTOMIZATION --- */
+:root {
+    /* Color Palette */
+    --primary-dark: #10002b;
+    --primary-mid: #240046;
+    --primary-light: #3c096c;
+    --accent-primary: #7b2cbf;
+    --accent-secondary: #9d4edd;
+    --accent-light: #c77dff;
+    --accent-lighter: #e0aaff;
+    
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    
+    /* Border Radius */
+    --radius-sm: 10px;
+    --radius-md: 15px;
+    --radius-lg: 20px;
+    --radius-xl: 25px;
+    
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 10px 40px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.4);
+    --shadow-glow: 0 0 15px rgba(123, 44, 191, 0.3);
+}
 
-        /* --- Card Styling with Rise Effect --- */
-        .interactive-card {
-            padding: 2rem;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            margin-bottom: 1.5rem;
-        }
+/* --- ANIMATED GRADIENT BACKGROUND --- */
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
 
-        .interactive-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
-        }
+.stApp {
+    background: linear-gradient(
+        -45deg, 
+        var(--primary-dark), 
+        var(--primary-mid), 
+        var(--primary-light)
+    );
+    background-size: 400% 400%;
+    animation: gradient 20s ease infinite;
+    min-height: 100vh;
+}
 
-        /* --- Button Styling --- */
-        .stButton>button {
-            border-radius: 25px;
-            border: none;
-            background: linear-gradient(135deg, #7b2cbf 0%, #9d4edd 100%);
-            color: white;
-            transition: all 0.3s ease;
-            padding: 14px 32px;
-            box-shadow: 0 6px 20px rgba(123, 44, 191, 0.4);
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
+/* --- CARD COMPONENTS --- */
+.interactive-card {
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all var(--transition-slow);
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    overflow: hidden;
+}
 
-        .stButton>button:hover {
-            transform: translateY(-3px) scale(1.2);
-            box-shadow: 0 10px 30px rgba(157, 78, 221, 0.6);
-            background: linear-gradient(135deg, #9d4edd 0%, #7b2cbf 100%);
-        }
+/* Subtle shimmer effect on cards */
+.interactive-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transition: left 0.5s ease;
+}
 
-        .stButton>button:active {
-            transform: translateY(-1px);
-        }
+.interactive-card:hover {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: var(--shadow-lg);
+}
 
-        /* --- Progress Bar Styling --- */
-        .stProgress > div > div > div > div {
-            background: linear-gradient(90deg, #7b2cbf 0%, #c77dff 100%);
-            border-radius: 10px;
-        }
+.interactive-card:hover::before {
+    left: 100%;
+}
 
-        /* --- Metric Styling --- */
-        [data-testid="stMetricValue"] {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #c77dff 0%, #e0aaff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+/* Card with glass morphism effect */
+.glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
 
-        /* --- Text Input Styling --- */
-        .stTextInput>div>div>input {
-            border-radius: 15px;
-            border: 2px solid rgba(90, 24, 154, 0.4);
-            padding: 12px 16px;
-            transition: all 0.3s ease;
-        }
+/* --- BUTTON STYLING --- */
+.stButton > button {
+    border-radius: var(--radius-xl);
+    border: none;
+    background: linear-gradient(
+        135deg, 
+        var(--accent-primary) 0%, 
+        var(--accent-secondary) 100%
+    );
+    color: white;
+    transition: all var(--transition-normal);
+    padding: 14px 32px;
+    box-shadow: 0 6px 20px rgba(123, 44, 191, 0.4);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
 
-        .stTextInput>div>div>input:focus {
-            border-color: #7b2cbf;
-            box-shadow: 0 0 15px rgba(123, 44, 191, 0.3);
-        }
+/* Button ripple effect */
+.stButton > button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
 
-        /* --- File Uploader Styling --- */
-        [data-testid="stFileUploader"] {
-            border-radius: 20px;
-            border: 3px dashed rgba(123, 44, 191, 0.5);
-            padding: 2rem;
-            transition: all 0.3s ease;
-        }
+.stButton > button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 30px rgba(157, 78, 221, 0.6);
+    background: linear-gradient(
+        135deg, 
+        var(--accent-secondary) 0%, 
+        var(--accent-primary) 100%
+    );
+}
 
-        [data-testid="stFileUploader"]:hover {
-            border-color: #9d4edd;
-            background: rgba(157, 78, 221, 0.05);
-        }
+.stButton > button:active {
+    transform: translateY(-1px) scale(1.02);
+}
 
-        /* --- Info Box Styling --- */
-        .stAlert {
-            border-radius: 15px;
-            border-left: 5px solid #7b2cbf;
-        }
+.stButton > button:active::after {
+    width: 300px;
+    height: 300px;
+}
 
-        /* --- Expander Styling --- */
-        .streamlit-expanderHeader {
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
+/* --- PROGRESS BAR STYLING --- */
+.stProgress > div > div > div > div {
+    background: linear-gradient(
+        90deg, 
+        var(--accent-primary) 0%, 
+        var(--accent-light) 100%
+    );
+    border-radius: var(--radius-sm);
+    position: relative;
+    overflow: hidden;
+}
 
-        .streamlit-expanderHeader:hover {
-            background: rgba(123, 44, 191, 0.2);
-            transform: translateX(5px);
-        }
-   
+/* Animated shimmer on progress bar */
+@keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+}
+
+.stProgress > div > div > div > div::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+}
+
+/* --- METRIC STYLING --- */
+[data-testid="stMetricValue"] {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(
+        135deg, 
+        var(--accent-light) 0%, 
+        var(--accent-lighter) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 10px rgba(199, 125, 255, 0.3);
+}
+
+[data-testid="stMetricDelta"] {
+    font-weight: 600;
+}
+
+/* --- TEXT INPUT STYLING --- */
+.stTextInput > div > div > input,
+.stTextArea > div > div > textarea {
+    border-radius: var(--radius-md);
+    border: 2px solid rgba(90, 24, 154, 0.4);
+    padding: 12px 16px;
+    transition: all var(--transition-normal);
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+}
+
+.stTextInput > div > div > input:focus,
+.stTextArea > div > div > textarea:focus {
+    border-color: var(--accent-primary);
+    box-shadow: var(--shadow-glow);
+    outline: none;
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.01);
+}
+
+.stTextInput > div > div > input:hover,
+.stTextArea > div > div > textarea:hover {
+    border-color: var(--accent-secondary);
+}
+
+/* --- SELECT BOX STYLING --- */
+.stSelectbox > div > div {
+    border-radius: var(--radius-md);
+    border: 2px solid rgba(90, 24, 154, 0.4);
+    transition: all var(--transition-normal);
+}
+
+.stSelectbox > div > div:hover {
+    border-color: var(--accent-secondary);
+    box-shadow: var(--shadow-sm);
+}
+
+/* --- FILE UPLOADER STYLING --- */
+[data-testid="stFileUploader"] {
+    border-radius: var(--radius-lg);
+    border: 3px dashed rgba(123, 44, 191, 0.5);
+    padding: var(--spacing-lg);
+    transition: all var(--transition-normal);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+[data-testid="stFileUploader"]:hover {
+    border-color: var(--accent-secondary);
+    background: rgba(157, 78, 221, 0.08);
+    transform: scale(1.01);
+}
+
+[data-testid="stFileUploader"] section {
+    border: none !important;
+}
+
+/* --- ALERT & INFO BOX STYLING --- */
+.stAlert {
+    border-radius: var(--radius-md);
+    border-left: 5px solid var(--accent-primary);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: var(--shadow-sm);
+    animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* --- EXPANDER STYLING --- */
+.streamlit-expanderHeader {
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.1);
+    transition: all var(--transition-normal);
+    padding: var(--spacing-sm) var(--spacing-md);
+    cursor: pointer;
+}
+
+.streamlit-expanderHeader:hover {
+    background: rgba(123, 44, 191, 0.2);
+    transform: translateX(5px);
+    box-shadow: var(--shadow-sm);
+}
+
+/* --- SLIDER STYLING --- */
+.stSlider > div > div > div {
+    background: linear-gradient(
+        90deg,
+        var(--accent-primary),
+        var(--accent-secondary)
+    );
+}
+
+.stSlider > div > div > div > div {
+    background-color: white;
+    border: 3px solid var(--accent-primary);
+    box-shadow: 0 2px 8px rgba(123, 44, 191, 0.4);
+}
+
+/* --- CHECKBOX & RADIO STYLING --- */
+.stCheckbox > label,
+.stRadio > label {
+    transition: all var(--transition-fast);
+    padding: var(--spacing-xs);
+    border-radius: var(--radius-sm);
+}
+
+.stCheckbox > label:hover,
+.stRadio > label:hover {
+    background: rgba(123, 44, 191, 0.1);
+    transform: translateX(3px);
+}
+
+/* --- TABS STYLING --- */
+.stTabs [data-baseweb="tab-list"] {
+    gap: var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xs);
+}
+
+.stTabs [data-baseweb="tab"] {
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    transition: all var(--transition-normal);
+    font-weight: 600;
+}
+
+.stTabs [data-baseweb="tab"]:hover {
+    background: rgba(123, 44, 191, 0.2);
+    transform: translateY(-2px);
+}
+
+.stTabs [aria-selected="true"] {
+    background: linear-gradient(
+        135deg,
+        var(--accent-primary),
+        var(--accent-secondary)
+    );
+    color: white !important;
+}
+
+/* --- DATAFRAME STYLING --- */
+.stDataFrame {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+/* --- SPINNER STYLING --- */
+.stSpinner > div {
+    border-color: var(--accent-primary) !important;
+    border-right-color: transparent !important;
+}
+
+/* --- SIDEBAR STYLING --- */
+[data-testid="stSidebar"] {
+    background: linear-gradient(
+        180deg,
+        rgba(16, 0, 43, 0.95),
+        rgba(60, 9, 108, 0.95)
+    );
+    backdrop-filter: blur(10px);
+}
+
+[data-testid="stSidebar"] .stButton > button {
+    width: 100%;
+}
+
+/* --- MARKDOWN ENHANCEMENTS --- */
+.stMarkdown h1,
+.stMarkdown h2,
+.stMarkdown h3 {
+    background: linear-gradient(
+        135deg,
+        var(--accent-light),
+        var(--accent-lighter)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+    margin-bottom: var(--spacing-md);
+}
+
+/* --- TOOLTIP STYLING --- */
+[data-testid="stTooltipIcon"] {
+    color: var(--accent-primary);
+    transition: all var(--transition-fast);
+}
+
+[data-testid="stTooltipIcon"]:hover {
+    color: var(--accent-secondary);
+    transform: scale(1.2);
+}
+
+/* --- SCROLLBAR STYLING --- */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+        180deg,
+        var(--accent-primary),
+        var(--accent-secondary)
+    );
+    border-radius: var(--radius-sm);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+        180deg,
+        var(--accent-secondary),
+        var(--accent-light)
+    );
+}
+
+/* --- ACCESSIBILITY IMPROVEMENTS --- */
+.stButton > button:focus,
+.stTextInput > div > div > input:focus,
+.stSelectbox > div > div:focus {
+    outline: 3px solid var(--accent-light);
+    outline-offset: 2px;
+}
+
+/* Reduced motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 768px) {
+    .interactive-card {
+        padding: var(--spacing-md);
+    }
+    
+    [data-testid="stMetricValue"] {
+        font-size: 2rem;
+    }
+    
+    .stButton > button {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .interactive-card {
+        padding: var(--spacing-sm);
+    }
+    
+    [data-testid="stMetricValue"] {
+        font-size: 1.5rem;
+    }
+}
+
+/* --- DARK MODE SUPPORT --- */
+@media (prefers-color-scheme: dark) {
+    .interactive-card {
+        background: rgba(30, 30, 30, 0.95);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .stTextInput > div > div > input,
+    .stTextArea > div > div > textarea {
+        background: rgba(40, 40, 40, 0.9);
+        color: white;
+    }
+}
+
+/* --- UTILITY CLASSES --- */
+.fade-in {
+    animation: fadeIn 0.6s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.glow {
+    box-shadow: 0 0 20px rgba(123, 44, 191, 0.5);
+}
